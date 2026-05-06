@@ -1,10 +1,10 @@
 ---
 name: pr-create
-description: Creates a pull request from current changes, monitors GitHub CI, and debugs any failures until CI passes. Use this when the user says "create pr", "make a pr", "open pull request", "submit pr", "pr for these changes", or wants to get their current work into a reviewable PR. Assumes the project uses git, is hosted on GitHub, and has GitHub Actions CI with automated checks (lint, build, tests, etc.). Does NOT merge - stops when CI passes and provides the PR link.
+description: Creates a pull request from current changes, monitors GitHub CI, and debugs any failures until CI passes. Activate when the user says "create pr", "make a pr", "open pull request", "submit pr", "pr for these changes", or wants to get their current work into a reviewable PR. Assumes the project uses git, is hosted on GitHub, and has GitHub Actions CI with automated checks (lint, build, tests, etc.). Does NOT merge - stops when CI passes and provides the PR link.
 compatibility: Designed for Claude Code; requires TaskCreate, TaskUpdate, and TaskList tools
 metadata:
   author: Garrick Aden-Buie (@gadenbuie)
-  version: "1.1"
+  version: "1.2"
 license: MIT
 ---
 
@@ -192,12 +192,16 @@ TaskUpdate:
 - metadata: {"reviewer": "<github-handle>"}
 ```
 
-Include approval options directly in the `AskUserQuestion` call for the PR preview. The options should be:
+Present the PR draft to the user for review. If the `plannotator-annotate` skill is available, write the PR draft to a temporary file and use the skill to request feedback from the user on the title, body, and reviewer.
 
-1. **"Looks good, proceed"** *(default)* — approve and immediately continue to Step 6
-2. **"Looks good, tell me what you'll do next"** — approve but show the plan outline before continuing
+Follow up with an `AskUserQuestion` call to confirm before moving forward.
 
-Do NOT create the PR until the user has selected one of these options.
+1. Are you ready to create the PR with the drafted title and description?
+  1. **"Looks good, proceed"** *(default)* — approve and immediately continue to Step 6
+  2. **"Looks good, tell me what you'll do next"** — approve but show the plan outline before continuing
+2. Do you want to request a review from anyone? (free-text, optional)
+
+Do NOT create the PR until the user has explicitly confirmed you should proceed.
 
 **5d. Show plan outline (only if user selected option 2):**
 
