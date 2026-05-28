@@ -199,6 +199,29 @@ card(
 ```
 
 
+### Card Footer
+
+```r
+card(
+  card_header("Plot"),
+  plotOutput("plot"),
+  card_footer(
+    toolbar(
+      toolbar_input_button("save", "Save",
+        icon = bsicons::bs_icon("floppy")
+      ),
+      toolbar_input_button("share", "Share",
+        icon = bsicons::bs_icon("share")
+      ),
+      toolbar_divider(),
+      toolbar_input_button("fullscreen", "Expand",
+        icon = bsicons::bs_icon("arrows-fullscreen")
+      )
+    )
+  )
+)
+```
+
 ## Info Icon Labels
 
 A toolbar is the cleanest way to add a help tooltip to an input label. Wrap the label text and an info icon together in a `toolbar()` as the `label` argument:
