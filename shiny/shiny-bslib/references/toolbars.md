@@ -200,11 +200,11 @@ card(
 
 ### Navset Card with Shared Controls
 
-Place a toolbar in the `title` of `navset_card_underline()` to share controls across all tabs:
+Use `card_header()` via the `header` argument to share controls across all tabs:
 
 ```r
 navset_card_underline(
-  title = tagList(
+  header = card_header(
     "Analysis",
     toolbar(
       toolbar_input_select("metric", "Metric",
@@ -218,20 +218,22 @@ navset_card_underline(
 )
 ```
 
-### Sidebar Header
+### Sidebar with a Reset Button
+
+Place a toolbar directly inside the sidebar when you want a compact action button alongside the sidebar's controls:
 
 ```r
 sidebar(
-  title = tagList(
-    "Filters",
-    toolbar(
-      align = "right",
-      toolbar_input_button("reset", "Reset",
-        icon = bsicons::bs_icon("arrow-counterclockwise")
-      )
+  title = "Filters",
+  toolbar(
+    align = "right",
+    toolbar_input_button("reset", "Reset filters",
+      icon = bsicons::bs_icon("arrow-counterclockwise")
     )
   ),
-  selectInput("species", "Species", ...)
+  selectInput("species", "Species",
+    choices = c("Adelie", "Chinstrap", "Gentoo")
+  )
 )
 ```
 
